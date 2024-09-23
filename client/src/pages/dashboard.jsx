@@ -444,7 +444,7 @@ const Dashboard = ({ tasks }) => {
           <p className="text-base text-gray-600">{label}</p>
           <span className="text-2xl font-semibold">{count}</span>
           <span className="text-sm text-gray-400">
-            {lastMonth ? `${lastMonth} Added Last Month` : "0 Last Month"}
+            {lastMonth ? `${lastMonth} Added Last Month` : " 0 Last Month"}
           </span>
         </div>
         <div

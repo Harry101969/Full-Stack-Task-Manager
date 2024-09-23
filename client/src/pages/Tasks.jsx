@@ -9,13 +9,9 @@
 // import Tabs from "../components/Tabs";
 // import TaskTitle from "../components/TaskTitle";
 // import BoardView from "../components/BoardView";
-// // import { tasks } from "../assets/data";
 // import Table from "../components/task/Table";
 // import AddTask from "../components/task/AddTask";
-// import {
-//   useGetAllTaskQuery,
-//   useGetSingleTaskQuery,
-// } from "../redux/slices/api/taskApiSlice";
+// import { useGetAllTaskQuery } from "../redux/slices/api/taskApiSlice";
 
 // const TABS = [
 //   { title: "Board View", icon: <MdGridView /> },
@@ -30,22 +26,18 @@
 
 // const Tasks = () => {
 //   const params = useParams();
-
 //   const [selected, setSelected] = useState(0);
 //   const [open, setOpen] = useState(false);
-//   // const [loading, setLoading] = useState(false);//Delete this later
 
 //   const priority = params?.priority || "normal";
 //   const status = params?.status || "";
 //   const { id } = useParams();
 //   const { data, isLoading } = useGetAllTaskQuery({
-//     id: id,
+//     id: id || "", // Make sure id is not undefined
 //     strQuery: status,
 //     isTrashed: "",
 //     search: "",
 //   });
-
-//   // const { data, isLoading } = useGetSingleTaskQuery(id);
 
 //   return isLoading ? (
 //     <div className="py-10">
@@ -68,21 +60,13 @@
 
 //       <Tabs tabs={TABS} setSelected={setSelected}>
 //         {!status && (
-//           // <div className="w-full flex justify-between gap-4 md:gap-x-12 py-4 disabled:true ">
-//           //   <TaskTitle label="To Do" className={TASK_TYPE.todo} />
-//           //   <TaskTitle
-//           //     label="In Progress"
-//           //     className={TASK_TYPE["in progress"]}
-//           //   />
-//           //   <TaskTitle label="completed" className={TASK_TYPE.completed} />
-//           // </div>
-//           <div className="w-full md:flex sm:flex lg:flex  justify-between gap-4 md:gap-x-12 py-4  xs:hidden">
+//           <div className="w-full md:flex sm:flex lg:flex justify-between gap-4 md:gap-x-12 py-4 xs:hidden">
 //             <TaskTitle label="To Do" className={TASK_TYPE.todo} />
 //             <TaskTitle
 //               label="In Progress"
 //               className={TASK_TYPE["in progress"]}
 //             />
-//             <TaskTitle label="completed" className={TASK_TYPE.completed} />
+//             <TaskTitle label="Completed" className={TASK_TYPE.completed} />
 //           </div>
 //         )}
 
