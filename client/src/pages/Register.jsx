@@ -32,7 +32,7 @@ const Register = () => {
 
       const result = await registerUser(userData).unwrap();
       dispatch(setCredentials(result));
-      navigate("/");
+      navigate(`${process.env.VITE_APP_BASE_URL}`);
       setTimeout(() => {
         toast.success("User Registered Successfully!!");
       }, 600);

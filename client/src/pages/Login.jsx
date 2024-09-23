@@ -37,7 +37,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    user && navigate("/dashboard");
+    user && navigate(`${process.env.VITE_APP_BASE_URL}/dashboard`);
   }, [user]);
 
   const signUpHandler = () => {
