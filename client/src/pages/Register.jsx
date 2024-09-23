@@ -43,7 +43,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    user && navigate("/dashboard");
+    user && navigate("/");
   }, [user]);
 
   const signInHandler = () => {
