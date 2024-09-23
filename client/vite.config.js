@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "https://full-stack-task-manager-bay.vercel.app/",
+        target: "https://full-stack-task-manager-bay.vercel.app",
         changeOrigin: true,
       },
     },
