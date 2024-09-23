@@ -22,7 +22,9 @@ app.use(
     credentials: true, //used to setup the cookies
   })
 );
-
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
