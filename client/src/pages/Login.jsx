@@ -29,7 +29,7 @@ const Login = () => {
       setTimeout(() => {
         window.location.reload();
       }, 100);
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
@@ -37,7 +37,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    user && navigate(`/`);
+    user && navigate("/dashboard");
   }, [user]);
 
   const signUpHandler = () => {
