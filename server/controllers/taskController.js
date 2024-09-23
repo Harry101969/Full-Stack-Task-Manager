@@ -81,7 +81,7 @@ export const updateTask = async (req, res) => {
       by: userId,
     };
 
-    const tasks = await Task.create({
+    const tasks = await Task.updateOne({
       title,
       team,
       stage: stage.toLowerCase(),

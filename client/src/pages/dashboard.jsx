@@ -12,11 +12,10 @@
 // import clsx from "clsx";
 // import { Chart } from "../components/Chart";
 // import { BGS, TASK_TYPE, getInitials } from "../utils";
-// import { PRIOTITYSTYELS } from "../utils";
 // import UserInfo from "../components/UserInfo";
 // import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 // import Loading from "../components/Loader";
-
+// import { useSelector } from "react-redux";
 // const TaskTable = ({ tasks }) => {
 //   const ICONS = {
 //     high: <MdKeyboardDoubleArrowUp />,
@@ -45,13 +44,11 @@
 //           <p className="text-base text-black">{task.title}</p>
 //         </div>
 //       </td>
-
 //       <td className="py-2">
 //         <div className="flex gap-1 px-1 items-center">
 //           <span className="capitalize">{task.priority}</span>
 //         </div>
 //       </td>
-
 //       <td className="py-2 px-2">
 //         <div className="flex">
 //           {task.team.slice(0, 3).map((m, index) => (
@@ -69,32 +66,30 @@
 //       </td>
 //       <td className="py-2 hidden md:block">
 //         <span className="text-base pl-2 text-gray-600">
-//           {moment(task?.date).fromNow()}
+//           {moment(task?.createdAt).fromNow().toUpperCase()}
 //         </span>
 //       </td>
 //     </tr>
 //   );
 
 //   return (
-//     <>
-//       <div className="w-full md:w-2/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded">
-//         <table className="w-full">
-//           <TableHeader />
-//           <tbody>
-//             {tasks?.map((task, id) => (
-//               <TableRow key={id} task={task} />
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     </>
+//     <div className="w-full md:w-2/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded">
+//       <table className="w-full">
+//         <TableHeader />
+//         <tbody>
+//           {tasks?.map((task, id) => (
+//             <TableRow key={id} task={task} />
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
 //   );
 // };
 
 // const UserTable = ({ users }) => {
 //   const TableHeader = () => (
 //     <thead className="border-b border-gray-300 ">
-//       <tr className="text-black  text-left">
+//       <tr className="text-black text-left">
 //         <th className="py-2">Full Name</th>
 //         <th className="py-2">Status</th>
 //         <th className="py-2">Created At</th>
@@ -115,7 +110,6 @@
 //           </div>
 //         </div>
 //       </td>
-
 //       <td>
 //         <p
 //           className={clsx(
@@ -144,15 +138,17 @@
 //   );
 // };
 
-// const Dashboard = () => {
+// const Dashboard = ({ tasks }) => {
 //   const { data, isLoading } = useGetDasboardStatsQuery();
-
+//   const { user } = useSelector((state) => state.auth);
 //   if (isLoading)
 //     return (
 //       <div className="py-10">
 //         <Loading />
 //       </div>
 //     );
+
+//   console.log("Data:", data.totalTasks); // Log the data to check the structure
 
 //   const totals = data?.tasks || {};
 //   const stats = [
@@ -165,14 +161,14 @@
 //     },
 //     {
 //       _id: "2",
-//       label: "COMPLTED TASK",
+//       label: "COMPLETED TASK",
 //       total: totals["completed"] || 0,
 //       icon: <MdAdminPanelSettings />,
 //       bg: "bg-[#0f766e]",
 //     },
 //     {
 //       _id: "3",
-//       label: "TASK IN PROGRESS ",
+//       label: "TASK IN PROGRESS",
 //       total: totals["in progress"] || 0,
 //       icon: <LuClipboardEdit />,
 //       bg: "bg-[#f59e0b]",
@@ -187,12 +183,14 @@
 //   ];
 
 //   const Card = ({ label, count, bg, icon }) => {
+//     var totolTask =
+//       data?.totalTasks.length === undefined ? 0 : data.totalTasks.lenght;
 //     return (
 //       <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
 //         <div className="h-full flex flex-1 flex-col justify-between">
 //           <p className="text-base text-gray-600">{label}</p>
 //           <span className="text-2xl font-semibold">{count}</span>
-//           <span className="text-sm text-gray-400">{"110 last month"}</span>
+//           <span className="text-sm text-gray-400">{`${totolTask} last month`}</span>
 //         </div>
 //         <div
 //           className={clsx(
@@ -210,7 +208,14 @@
 //     <div className="h-full py-4">
 //       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
 //         {stats.map(({ icon, bg, label, total }, index) => (
-//           <Card key={index} icon={icon} bg={bg} label={label} count={total} />
+//           <Card
+//             key={index}
+//             icon={icon}
+//             bg={bg}
+//             label={label}
+//             count={total}
+//             // tasks={tasks}
+//           />
 //         ))}
 //       </div>
 //       <div className="w-full bg-white my-16 p-4 rounded shadow-sm">
@@ -221,7 +226,7 @@
 //       </div>
 //       <div className="w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8">
 //         <TaskTable tasks={data?.last10Task} />
-//         <UserTable users={data?.users} />
+//         {user?.isAdmin ? <UserTable users={data?.users} /> : null}
 //       </div>
 //     </div>
 //   );
@@ -246,6 +251,7 @@ import UserInfo from "../components/UserInfo";
 import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 import Loading from "../components/Loader";
 import { useSelector } from "react-redux";
+
 const TaskTable = ({ tasks }) => {
   const ICONS = {
     high: <MdKeyboardDoubleArrowUp />,
@@ -281,7 +287,7 @@ const TaskTable = ({ tasks }) => {
       </td>
       <td className="py-2 px-2">
         <div className="flex">
-          {task.team.slice(0, 3).map((m, index) => (
+          {task.team?.slice(0, 3)?.map((m, index) => (
             <div
               key={index}
               className={clsx(
@@ -368,9 +374,10 @@ const UserTable = ({ users }) => {
   );
 };
 
-const Dashboard = () => {
+const Dashboard = ({ tasks }) => {
   const { data, isLoading } = useGetDasboardStatsQuery();
   const { user } = useSelector((state) => state.auth);
+
   if (isLoading)
     return (
       <div className="py-10">
@@ -378,9 +385,23 @@ const Dashboard = () => {
       </div>
     );
 
-  console.log(data); // Log the data to check the structure
+  if (!data) return <div>No data available</div>;
 
   const totals = data?.tasks || {};
+
+  // Calculate the number of tasks added last month for each stage
+  const getTasksAddedLastMonthByStage = (stage) => {
+    const lastMonth = moment().subtract(1, "month");
+    return data?.last10Task?.filter(
+      (task) =>
+        task.stage === stage && moment(task?.createdAt).isAfter(lastMonth)
+    ).length;
+  };
+
+  const tasksAddedLastMonth = data?.last10Task?.filter((task) =>
+    moment(task?.createdAt).isAfter(moment().subtract(1, "month"))
+  ).length;
+
   const stats = [
     {
       _id: "1",
@@ -388,6 +409,7 @@ const Dashboard = () => {
       total: data?.totalTasks || 0,
       icon: <FaNewspaper />,
       bg: "bg-[#1d4ed8]",
+      lastMonth: tasksAddedLastMonth, // Total tasks added last month
     },
     {
       _id: "2",
@@ -395,6 +417,7 @@ const Dashboard = () => {
       total: totals["completed"] || 0,
       icon: <MdAdminPanelSettings />,
       bg: "bg-[#0f766e]",
+      lastMonth: getTasksAddedLastMonthByStage("completed"), // Completed tasks added last month
     },
     {
       _id: "3",
@@ -402,6 +425,7 @@ const Dashboard = () => {
       total: totals["in progress"] || 0,
       icon: <LuClipboardEdit />,
       bg: "bg-[#f59e0b]",
+      lastMonth: getTasksAddedLastMonthByStage("in progress"), // In-progress tasks added last month
     },
     {
       _id: "4",
@@ -409,16 +433,19 @@ const Dashboard = () => {
       total: totals["todo"] || 0,
       icon: <FaArrowsToDot />,
       bg: "bg-[#be185d]",
+      lastMonth: getTasksAddedLastMonthByStage("todo"), // TODO tasks added last month
     },
   ];
 
-  const Card = ({ label, count, bg, icon }) => {
+  const Card = ({ label, count, bg, icon, lastMonth }) => {
     return (
       <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
         <div className="h-full flex flex-1 flex-col justify-between">
           <p className="text-base text-gray-600">{label}</p>
           <span className="text-2xl font-semibold">{count}</span>
-          <span className="text-sm text-gray-400">{"110 last month"}</span>
+          <span className="text-sm text-gray-400">
+            {lastMonth ? `${lastMonth} Added Last Month` : "0 Last Month"}
+          </span>
         </div>
         <div
           className={clsx(
@@ -435,8 +462,15 @@ const Dashboard = () => {
   return (
     <div className="h-full py-4">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-        {stats.map(({ icon, bg, label, total }, index) => (
-          <Card key={index} icon={icon} bg={bg} label={label} count={total} />
+        {stats.map(({ icon, bg, label, total, lastMonth }, index) => (
+          <Card
+            key={index}
+            icon={icon}
+            bg={bg}
+            label={label}
+            count={total}
+            lastMonth={lastMonth}
+          />
         ))}
       </div>
       <div className="w-full bg-white my-16 p-4 rounded shadow-sm">
@@ -446,8 +480,8 @@ const Dashboard = () => {
         <Chart data={data?.graphData} />
       </div>
       <div className="w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8">
-        <TaskTable tasks={data?.last10Task} />
-        {user?.isAdmin ? <UserTable users={data?.users} /> : null}
+        <TaskTable tasks={data?.last10Task || []} />
+        {user?.isAdmin ? <UserTable users={data?.users || []} /> : null}
       </div>
     </div>
   );
