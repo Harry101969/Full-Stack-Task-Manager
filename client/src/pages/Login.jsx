@@ -26,10 +26,6 @@ const Login = () => {
       const result = await login(data).unwrap();
       dispatch(setCredentials(result));
       toast.success("User Logged In Successully!");
-      setTimeout(() => {
-        console.log("loggedin!");
-      }, 100);
-      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
@@ -37,8 +33,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    user && navigate("/dashboard");
-  }, [user]);
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const signUpHandler = () => {
     console.log("Sign-up clicked");
