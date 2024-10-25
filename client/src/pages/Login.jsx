@@ -27,16 +27,20 @@ const Login = () => {
       dispatch(setCredentials(result));
 
       setTimeout(() => {
-        console.log("loggedin!");
         window.location.reload();
+        console.log("loggedin!");
       }, 100);
       toast.success("User Logged In Successully!");
-      navigate("/dashboard");
+      navigate("https://full-stack-task-manager-74aa.vercel.app/");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
     }
   };
+
+  // useEffect(() => {
+  //   user && navigate("/dashboard");
+  // }, [user]);
 
   const signUpHandler = () => {
     console.log("Sign-up clicked");
