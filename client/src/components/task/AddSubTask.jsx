@@ -18,14 +18,15 @@ const AddSubTask = ({ open, setOpen, id }) => {
     try {
       const res = await addSbTask({ data, id }).unwrap();
       toast.success(res.message);
+      toast.success(res?.message);
       setTimeout(() => {
-        setOpenDialog(false);
-        navigate("/tasks");
+        setOpen(false);
+        navigate("/tasks/tasks");
         setTimeout(() => {
           console.log("Sub-Task Added");
         }, 200);
         window.location.reload();
-      }, 200);
+      }, 500);
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
