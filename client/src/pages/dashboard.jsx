@@ -251,6 +251,8 @@ import UserInfo from "../components/UserInfo";
 import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 import Loading from "../components/Loader";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const TaskTable = ({ tasks }) => {
   const ICONS = {
@@ -377,7 +379,18 @@ const UserTable = ({ users }) => {
 const Dashboard = ({ tasks }) => {
   const { data, isLoading } = useGetDasboardStatsQuery();
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  // Reload user from localStorage if not in Redux state
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (!user && storedUser) {
+      dispatch(setCredentials(storedUser));
+    } else if (!user && !storedUser) {
+      navigate("/login");
+    }
+  }, [user, navigate, dispatch]);
   if (isLoading)
     return (
       <div className="py-10">
