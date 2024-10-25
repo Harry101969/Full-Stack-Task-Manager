@@ -18,10 +18,9 @@ const AddSubTask = ({ open, setOpen, id }) => {
     try {
       const res = await addSbTask({ data, id }).unwrap();
       toast.success(res.message);
-      toast.success(res?.message);
       setTimeout(() => {
         setOpen(false);
-        navigate("/tasks/tasks");
+        navigate("/");
         setTimeout(() => {
           console.log("Sub-Task Added");
         }, 200);
