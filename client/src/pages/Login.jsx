@@ -27,11 +27,14 @@ const Login = () => {
       dispatch(setCredentials(result));
 
       setTimeout(() => {
-        window.location.reload();
         console.log("loggedin!");
       }, 100);
       toast.success("User Logged In Successully!");
-      navigate("/");
+      navigate("/dashboard");
+      setTimeout(() => {
+        console.log("Loading Data");
+      }, 100);
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
