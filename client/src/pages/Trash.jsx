@@ -97,8 +97,11 @@ const Trash = () => {
         setTimeout(() => {
           console.log("Added To trash");
         }, 100);
-        window.location.reload();
         navigate("/trashed");
+        setTimeout(() => {
+          console.log("Added To trash completed");
+        }, 100);
+        window.location.reload();
         // refetch(); //If u like
       }, 500);
     } catch (error) {
