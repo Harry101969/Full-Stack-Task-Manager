@@ -26,7 +26,7 @@ const AddSubTask = ({ open, setOpen, id }) => {
           console.log("Subtask Added");
         }, 200);
         window.location.reload();
-      }, 500);
+      }, 300);
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
