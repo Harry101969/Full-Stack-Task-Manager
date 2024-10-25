@@ -34,7 +34,7 @@ const TaskDialog = ({ task }) => {
           console.log("Task Duplicated");
         }, 200);
         window.location.reload();
-      }, 500);
+      }, 200);
     } catch (error) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
@@ -58,7 +58,7 @@ const TaskDialog = ({ task }) => {
           console.log("Task Deleted");
         }, 200);
         window.location.reload();
-      }, 500);
+      }, 300);
     } catch (error) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
