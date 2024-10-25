@@ -97,7 +97,7 @@ const Trash = () => {
         setTimeout(() => {
           console.log("Added To trash");
         }, 100);
-        toast.success("User Logged In Successully!");
+        window.location.reload();
         navigate("/trashed");
         // refetch(); //If u like
       }, 500);
