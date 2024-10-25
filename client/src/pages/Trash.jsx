@@ -94,6 +94,10 @@ const Trash = () => {
       toast.success(result?.message || "Operation Performed Successfully!");
       setTimeout(() => {
         setOpenDialog(false);
+        setTimeout(() => {
+          console.log("Added To trash");
+        }, 100);
+        toast.success("User Logged In Successully!");
         navigate("/trashed");
         // refetch(); //If u like
       }, 500);
