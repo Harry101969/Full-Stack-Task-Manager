@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("https://full-stack-task-manager-74aa.vercel.app/dashboard");
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
