@@ -20,7 +20,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [login, { isLoading }, refetch] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
   const submitHandler = async (data) => {
     try {
       const result = await login(data).unwrap();
@@ -30,7 +30,7 @@ const Login = () => {
         console.log("loggedin!");
       }, 100);
       toast.success("User Logged In Successully!");
-      navigate("/dashboard");
+      navigate("/");
       setTimeout(() => {
         console.log("Loading Data");
       }, 500);
