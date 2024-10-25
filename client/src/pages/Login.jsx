@@ -26,6 +26,7 @@ const Login = () => {
       const result = await login(data).unwrap();
       dispatch(setCredentials(result));
       toast.success("User Logged In Successully!");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
