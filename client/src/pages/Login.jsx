@@ -30,7 +30,7 @@ const Login = () => {
         console.log("loggedin!");
       }, 100);
       toast.success("User Logged In Successully!");
-      refetch();
+      navigate("/dashboard");
       setTimeout(() => {
         console.log("Loading Data");
       }, 500);
