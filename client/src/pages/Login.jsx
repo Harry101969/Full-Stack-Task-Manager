@@ -31,7 +31,7 @@ const Login = () => {
       toast.error(error?.data?.message || error.message);
     }
   };
-  window.location.reload();
+
   useEffect(() => {
     if (user) {
       navigate("/dashboard");
