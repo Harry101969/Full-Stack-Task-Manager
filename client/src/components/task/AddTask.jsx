@@ -78,7 +78,7 @@ const AddTask = ({ open, setOpen, task }) => {
       toast.success(res.message);
       setTimeout(() => {
         setOpen(false);
-        navigate("/tasks");
+        navigate("/");
         setTimeout(() => {
           console.log("Added task");
         });

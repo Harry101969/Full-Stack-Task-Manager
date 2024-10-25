@@ -97,7 +97,7 @@ const Trash = () => {
         setTimeout(() => {
           console.log("Added To trash");
         }, 100);
-        navigate("/trashed");
+        navigate("/");
         setTimeout(() => {
           console.log("Added To trash completed");
         }, 100);
