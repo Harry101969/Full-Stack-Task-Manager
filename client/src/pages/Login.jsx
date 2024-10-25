@@ -28,9 +28,8 @@ const Login = () => {
       toast.success("User Logged In Successully!");
       setTimeout(() => {
         console.log("loggedin!");
+        navigate("/dashboard");
       }, 100);
-      window.location.reload();
-      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
