@@ -30,6 +30,7 @@ const Login = () => {
         console.log("loggedin!");
       }, 100);
       navigate("/dashboard");
+      window.location.reload();
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
