@@ -49,9 +49,8 @@ const TaskDialog = ({ task }) => {
       toast.success(res?.message);
       setTimeout(() => {
         setOpenDialog(false);
-        navigate("/tasks");
+        navigate("/");
         setTimeout(() => {
-          navigate("/tasks");
           console.log("Task Deleted");
         }, 200);
         window.location.reload();
