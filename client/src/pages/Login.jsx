@@ -31,7 +31,7 @@ const Login = () => {
         console.log("loggedin!");
       }, 100);
       toast.success("User Logged In Successully!");
-      navigate("https://full-stack-task-manager-74aa.vercel.app/");
+      navigate("/");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
