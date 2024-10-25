@@ -19,6 +19,7 @@ import {
   useGetAllTaskQuery,
 } from "../redux/slices/api/taskApiSlice";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
@@ -31,7 +32,7 @@ const Trash = () => {
   const [msg, setMsg] = useState(null);
   const [type, setType] = useState("delete");
   const [selected, setSelected] = useState("");
-
+  const navigate = useNavigate();
   const restoreAllClick = () => {
     setType("restoreAll");
     setMsg("Do you want to restore all items in the trash?");
@@ -93,8 +94,8 @@ const Trash = () => {
       toast.success(result?.message || "Operation Performed Successfully!");
       setTimeout(() => {
         setOpenDialog(false);
-        window.location.reload();
-        //refetch() //If u like
+        navigate("/trashed");
+        // refetch(); //If u like
       }, 500);
     } catch (error) {
       console.log(error);
