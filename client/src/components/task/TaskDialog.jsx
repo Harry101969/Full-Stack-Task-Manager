@@ -49,11 +49,11 @@ const TaskDialog = ({ task }) => {
       toast.success(res?.message);
       setTimeout(() => {
         setOpenDialog(false);
+        navigate("/tasks");
         setTimeout(() => {
           navigate("/tasks");
           console.log("Task Deleted");
         }, 200);
-
         window.location.reload();
       }, 500);
     } catch (error) {
