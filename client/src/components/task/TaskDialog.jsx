@@ -31,6 +31,7 @@ const TaskDialog = ({ task }) => {
       setTimeout(() => {
         setOpenDialog(false);
       }, 200);
+      console.log("Changes");
     } catch (error) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
