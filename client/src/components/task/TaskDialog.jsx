@@ -22,18 +22,14 @@ const TaskDialog = ({ task }) => {
 
   const navigate = useNavigate();
   const [deleteTask] = useTrashTaskMutation();
-  const [duplicateTask] = useDuplicateTaskMutation();
+  const [duplicateTask, refetch] = useDuplicateTaskMutation();
   const duplicateHandler = async () => {
     try {
       const res = await duplicateTask(task._id).unwrap();
+      refetch();
       toast.success(res?.message);
       setTimeout(() => {
         setOpenDialog(false);
-        navigate("/");
-        setTimeout(() => {
-          console.log("Task Duplicated");
-        }, 200);
-        window.location.reload();
       }, 200);
     } catch (error) {
       console.log(err);
