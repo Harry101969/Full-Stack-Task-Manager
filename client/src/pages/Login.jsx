@@ -25,18 +25,18 @@ const Login = () => {
     try {
       const result = await login(data).unwrap();
       dispatch(setCredentials(result));
+
+      setTimeout(() => {
+        console.log("loggedin!");
+        window.location.reload();
+      }, 100);
       toast.success("User Logged In Successully!");
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
 
   const signUpHandler = () => {
     console.log("Sign-up clicked");

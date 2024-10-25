@@ -20,6 +20,7 @@ import {
 } from "../../redux/slices/api/taskApiSlice";
 import { toast } from "sonner";
 import { dateFormatter } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
 const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
@@ -48,6 +49,7 @@ const AddTask = ({ open, setOpen, task }) => {
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
   const URLs = task?.assets ? [...task.assets] : [];
+  const navigate = useNavigate();
   const submitHandler = async (data) => {
     for (const file of assets) {
       setUploading(true);
@@ -76,8 +78,8 @@ const AddTask = ({ open, setOpen, task }) => {
       toast.success(res.message);
       setTimeout(() => {
         setOpen(false);
-        window.location.reload();
-      }, 600);
+        navigate("/tasks");
+      }, 100);
     } catch (err) {
       console.log(err);
       toast.error(err?.data?.message || err.error);
