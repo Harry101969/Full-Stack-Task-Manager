@@ -384,7 +384,7 @@ const Dashboard = ({ tasks }) => {
 
   // Reload user from localStorage if not in Redux state
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const storedUser = JSON.parse(localStorage.getItem("userInfo"));
     if (!user && storedUser) {
       dispatch(setCredentials(storedUser));
     } else if (!user && !storedUser) {
