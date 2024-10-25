@@ -29,8 +29,8 @@ const Login = () => {
       setTimeout(() => {
         console.log("loggedin!");
       }, 100);
-      navigate("/dashboard");
       window.location.reload();
+      navigate("/dashboard");
     } catch (error) {
       console.log(error);
       toast.error(error?.data?.message || error.message);
