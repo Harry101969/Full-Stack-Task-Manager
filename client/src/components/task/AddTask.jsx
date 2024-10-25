@@ -79,6 +79,10 @@ const AddTask = ({ open, setOpen, task }) => {
       setTimeout(() => {
         setOpen(false);
         navigate("/tasks");
+        setTimeout(() => {
+          console.log("Added task");
+        });
+        window.location.reload();
       }, 100);
     } catch (err) {
       console.log(err);
