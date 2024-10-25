@@ -142,7 +142,7 @@ const UserTable = ({ users }) => {
 };
 
 const Dashboard = ({ tasks }) => {
-  const { data, isLoading } = useGetDasboardStatsQuery();
+  const { data, isLoading, refetch } = useGetDasboardStatsQuery();
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -152,6 +152,7 @@ const Dashboard = ({ tasks }) => {
     const storedUser = JSON.parse(localStorage.getItem("userInfo"));
     if (!user && storedUser) {
       dispatch(setCredentials(storedUser));
+      refetch();
     } else if (!user && !storedUser) {
       navigate("/login");
     }
