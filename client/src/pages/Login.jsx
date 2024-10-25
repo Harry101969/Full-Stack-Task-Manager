@@ -27,7 +27,7 @@ const Login = () => {
       dispatch(setCredentials(result));
       toast.success("User Logged In Successully!");
       setTimeout(() => {
-        window.location.reload();
+        console.log("loggedin!");
       }, 100);
       navigate("/dashboard");
     } catch (error) {
