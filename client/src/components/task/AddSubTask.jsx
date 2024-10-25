@@ -20,10 +20,6 @@ const AddSubTask = ({ open, setOpen, id }) => {
       toast.success(res.message);
       setTimeout(() => {
         setOpen(false);
-        navigate("/");
-        setTimeout(() => {
-          console.log("Sub-Task Added");
-        }, 200);
         window.location.reload();
       }, 500);
     } catch (err) {
