@@ -5,13 +5,14 @@ import Textbox from "../Textbox";
 import Button from "../Button";
 import { useCreateSubTaskMutation } from "../../redux/slices/api/taskApiSlice";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const AddSubTask = ({ open, setOpen, id }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const [addSbTask] = useCreateSubTaskMutation();
 
   const handleOnSubmit = async (data) => {
@@ -19,7 +20,11 @@ const AddSubTask = ({ open, setOpen, id }) => {
       const res = await addSbTask({ data, id }).unwrap();
       toast.success(res.message);
       setTimeout(() => {
-        setOpen(false);
+        setOpenDialog(false);
+        navigate("/");
+        setTimeout(() => {
+          console.log("Subtask Added");
+        }, 200);
         window.location.reload();
       }, 500);
     } catch (err) {
