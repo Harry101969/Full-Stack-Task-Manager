@@ -29,6 +29,10 @@ const TaskDialog = ({ task }) => {
       toast.success(res?.message);
       setTimeout(() => {
         setOpenDialog(false);
+        navigate("/");
+        setTimeout(() => {
+          console.log("Task Duplicated");
+        }, 200);
         window.location.reload();
       }, 500);
     } catch (error) {
