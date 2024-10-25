@@ -1,4 +1,4 @@
-// import React from "react";
+// import React, { useEffect } from "react";
 // import {
 //   MdAdminPanelSettings,
 //   MdKeyboardArrowDown,
@@ -16,6 +16,9 @@
 // import { useGetDasboardStatsQuery } from "../redux/slices/api/taskApiSlice";
 // import Loading from "../components/Loader";
 // import { useSelector } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
+
 // const TaskTable = ({ tasks }) => {
 //   const ICONS = {
 //     high: <MdKeyboardDoubleArrowUp />,
@@ -51,7 +54,7 @@
 //       </td>
 //       <td className="py-2 px-2">
 //         <div className="flex">
-//           {task.team.slice(0, 3).map((m, index) => (
+//           {task.team?.slice(0, 3)?.map((m, index) => (
 //             <div
 //               key={index}
 //               className={clsx(
@@ -141,6 +144,18 @@
 // const Dashboard = ({ tasks }) => {
 //   const { data, isLoading } = useGetDasboardStatsQuery();
 //   const { user } = useSelector((state) => state.auth);
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+
+//   // Reload user from localStorage if not in Redux state
+//   useEffect(() => {
+//     const storedUser = JSON.parse(localStorage.getItem("userInfo"));
+//     if (!user && storedUser) {
+//       dispatch(setCredentials(storedUser));
+//     } else if (!user && !storedUser) {
+//       navigate("/login");
+//     }
+//   }, [user, navigate, dispatch]);
 //   if (isLoading)
 //     return (
 //       <div className="py-10">
@@ -148,9 +163,23 @@
 //       </div>
 //     );
 
-//   console.log("Data:", data.totalTasks); // Log the data to check the structure
+//   if (!data) return <div>No data available</div>;
 
 //   const totals = data?.tasks || {};
+
+//   // Calculate the number of tasks added last month for each stage
+//   const getTasksAddedLastMonthByStage = (stage) => {
+//     const lastMonth = moment().subtract(1, "month");
+//     return data?.last10Task?.filter(
+//       (task) =>
+//         task.stage === stage && moment(task?.createdAt).isAfter(lastMonth)
+//     ).length;
+//   };
+
+//   const tasksAddedLastMonth = data?.last10Task?.filter((task) =>
+//     moment(task?.createdAt).isAfter(moment().subtract(1, "month"))
+//   ).length;
+
 //   const stats = [
 //     {
 //       _id: "1",
@@ -158,6 +187,7 @@
 //       total: data?.totalTasks || 0,
 //       icon: <FaNewspaper />,
 //       bg: "bg-[#1d4ed8]",
+//       lastMonth: tasksAddedLastMonth, // Total tasks added last month
 //     },
 //     {
 //       _id: "2",
@@ -165,6 +195,7 @@
 //       total: totals["completed"] || 0,
 //       icon: <MdAdminPanelSettings />,
 //       bg: "bg-[#0f766e]",
+//       lastMonth: getTasksAddedLastMonthByStage("completed"), // Completed tasks added last month
 //     },
 //     {
 //       _id: "3",
@@ -172,6 +203,7 @@
 //       total: totals["in progress"] || 0,
 //       icon: <LuClipboardEdit />,
 //       bg: "bg-[#f59e0b]",
+//       lastMonth: getTasksAddedLastMonthByStage("in progress"), // In-progress tasks added last month
 //     },
 //     {
 //       _id: "4",
@@ -179,18 +211,19 @@
 //       total: totals["todo"] || 0,
 //       icon: <FaArrowsToDot />,
 //       bg: "bg-[#be185d]",
+//       lastMonth: getTasksAddedLastMonthByStage("todo"), // TODO tasks added last month
 //     },
 //   ];
 
-//   const Card = ({ label, count, bg, icon }) => {
-//     var totolTask =
-//       data?.totalTasks.length === undefined ? 0 : data.totalTasks.lenght;
+//   const Card = ({ label, count, bg, icon, lastMonth }) => {
 //     return (
 //       <div className="w-full h-32 bg-white p-5 shadow-md rounded-md flex items-center justify-between">
 //         <div className="h-full flex flex-1 flex-col justify-between">
 //           <p className="text-base text-gray-600">{label}</p>
 //           <span className="text-2xl font-semibold">{count}</span>
-//           <span className="text-sm text-gray-400">{`${totolTask} last month`}</span>
+//           <span className="text-sm text-gray-400">
+//             {lastMonth ? `${lastMonth} Added Last Month` : " 0 Last Month"}
+//           </span>
 //         </div>
 //         <div
 //           className={clsx(
@@ -207,14 +240,14 @@
 //   return (
 //     <div className="h-full py-4">
 //       <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
-//         {stats.map(({ icon, bg, label, total }, index) => (
+//         {stats.map(({ icon, bg, label, total, lastMonth }, index) => (
 //           <Card
 //             key={index}
 //             icon={icon}
 //             bg={bg}
 //             label={label}
 //             count={total}
-//             // tasks={tasks}
+//             lastMonth={lastMonth}
 //           />
 //         ))}
 //       </div>
@@ -225,8 +258,8 @@
 //         <Chart data={data?.graphData} />
 //       </div>
 //       <div className="w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8">
-//         <TaskTable tasks={data?.last10Task} />
-//         {user?.isAdmin ? <UserTable users={data?.users} /> : null}
+//         <TaskTable tasks={data?.last10Task || []} />
+//         {user?.isAdmin ? <UserTable users={data?.users || []} /> : null}
 //       </div>
 //     </div>
 //   );
@@ -253,6 +286,7 @@ import Loading from "../components/Loader";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { setCredentials } from "../redux/slices/authSlice"; // Import setCredentials
 
 const TaskTable = ({ tasks }) => {
   const ICONS = {
@@ -343,7 +377,7 @@ const UserTable = ({ users }) => {
             <span className="text-center">{getInitials(user?.name)}</span>
           </div>
           <div className="mr-1">
-            <p> {user.name}</p>
+            <p>{user.name}</p>
             <span className="text-xs text-black">{user?.role}</span>
           </div>
         </div>
@@ -391,6 +425,7 @@ const Dashboard = ({ tasks }) => {
       navigate("/login");
     }
   }, [user, navigate, dispatch]);
+
   if (isLoading)
     return (
       <div className="py-10">
